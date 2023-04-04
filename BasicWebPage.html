@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--STEP 1 - Including the gigya.js script: -->
+    <script type = "text/javascript" src = "https://cdns.gigya.com/js/gigya.js?apiKey=4_qmEh8MsTWeRDba-Smad9KQ">
+        // STEP 2 - Defining a global configuration object:
+        {
+            enabledProviders: "facebook"
+        }
+    </script>
+</head>
+<body>
+    <script type = "text/javascript">
+        function Login() {
+            var params = {
+                "callback": onLogin,
+                "provider": "facebook",
+                context: 'testLogin'
+            };
+            gigya.socialize.login(params);
+        }
+        //declare the callback function in your code
+        function onLogin(response) {
+            if (response.errorCode == 0) {
+                // this will inject the user name and nickname
+                document.getElementById('divUserName').innerHTML = response.user.nickname;
+                ///set the photo to image src attribute.
+                document.getElementById('imgUserPhoto').src = response.user.photoURL;
+            } else {
+                //handle errors
+                alert("An error has occured!" + '\n' +
+                    "Error details: " + response.errorMessage + '\n' +
+                    "In method: " + response.operation);
+            }
+        }
+    </script>
+
+    <div id = "runningCodeExample" style = "border: 1px solid skyblue; padding: 15px; width: 400px; display: block; height: auto;">
+        <center>
+            <input type="button" onclick="Login()" value="Connect to Facebook"/>
+            <div id="UserInfo"></div>
+            <div id="divUserName"></div>
+            <div id="divUserPhoto"></div>
+            <img id="imgUserPhoto" src="https://s3.amazonaws.com/wikifiles.gigya.com/transparent.GIF" onerror="this.src='transparent.GIF'">
+        </center>
+    </div>
+</body>
+</html>
